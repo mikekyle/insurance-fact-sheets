@@ -1,0 +1,1812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fact Sheet: AVIVA plc</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 40px; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        h1 { color: #2c3e50; border-bottom: 2px solid #e67e22; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 30px; background-color: #ecf0f1; padding: 10px; border-radius: 4px; }
+        .qa-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 12px 0; }
+        .question { font-weight: 600; color: #555; width: 60%; }
+
+        /* The Answer & Tooltip Container */
+        .answer-container { position: relative; width: 35%; text-align: right; cursor: help; }
+        .answer-text { font-weight: bold; color: #2980b9; padding: 5px 10px; background: #eaf2f8; border-radius: 4px; display: inline-block; }
+        .answer-unknown { color: #95a5a6; background: #f5f5f5; font-style: italic; }
+
+        /* Confidence Badge */
+        .confidence-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            margin-left: 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: bold;
+            vertical-align: middle;
+        }
+
+        /* Confidence Badge Colors */
+        .conf-high { background-color: #27ae60; color: white; }
+        .conf-medium { background-color: #f39c12; color: white; }
+        .conf-low { background-color: #e74c3c; color: white; }
+
+        /* Confidence Bar */
+        .confidence-bar-container {
+            width: 100%;
+            height: 4px;
+            background-color: #ecf0f1;
+            border-radius: 2px;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+
+        .confidence-bar {
+            height: 100%;
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .bar-high { background: linear-gradient(90deg, #27ae60, #2ecc71); }
+        .bar-medium { background: linear-gradient(90deg, #f39c12, #f1c40f); }
+        .bar-low { background: linear-gradient(90deg, #e74c3c, #e67e22); }
+
+        /* The Hidden Tooltip */
+        .tooltip {
+            visibility: hidden;
+            width: 400px;
+            background-color: #2c3e50;
+            color: #fff;
+            text-align: left;
+            border-radius: 8px;
+            padding: 18px;
+            position: absolute;
+            z-index: 1;
+            top: 125%;
+            right: 0;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+            font-size: 0.85em;
+            font-weight: normal;
+        }
+
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            bottom: 100%;
+            right: 20px;
+            border-width: 6px;
+            border-style: solid;
+            border-color: transparent transparent #2c3e50 transparent;
+        }
+
+        .answer-container:hover .tooltip { visibility: visible; opacity: 1; }
+
+        /* Tooltip Details */
+        .meta-label { color: #e67e22; font-size: 0.75em; text-transform: uppercase; margin-top: 10px; display: block; font-weight: bold; }
+        .meta-content { display: block; margin-bottom: 5px; line-height: 1.4; }
+        .quote { font-style: italic; color: #bdc3c7; border-left: 3px solid #7f8c8d; padding-left: 10px; margin-top: 5px; }
+
+        /* Confidence Factors Display */
+        .factors-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .factor-item {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 6px;
+            border-radius: 4px;
+        }
+
+        .factor-name {
+            font-size: 0.7em;
+            color: #95a5a6;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .factor-score {
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .score-excellent { color: #2ecc71; }
+        .score-good { color: #3498db; }
+        .score-fair { color: #f39c12; }
+        .score-poor { color: #e74c3c; }
+
+        /* Model Agreement Indicator */
+        .agreement-indicator {
+            margin-top: 8px;
+            padding: 6px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            font-size: 0.75em;
+        }
+
+        .agreement-high { color: #2ecc71; }
+        .agreement-medium { color: #f39c12; }
+        .agreement-low { color: #e74c3c; }
+
+        /* Enhanced vs Legacy Indicator */
+        .confidence-type {
+            font-size: 0.7em;
+            color: #95a5a6;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .footer { margin-top: 50px; font-size: 0.8em; color: #999; text-align: center; }
+
+        /* Source links */
+        .source-link { color: #3498db; text-decoration: none; }
+        .source-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h1>AVIVA plc</h1>
+        <span style="color:#7f8c8d;">2025-11-15</span>
+    </div>
+
+    
+    <div class="section">
+        <h2>Corporate Strategy & Structure</h2>
+
+        
+        <div class="qa-row">
+            <div class="question">Is the company actively writing new business?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Active New Business Writer
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                67%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 67.25%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>67.2%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-low">
+                            Low agreement between models (variance: 1515.1)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://static.aviva.io/content/dam/aviva-corporate/documents/investors/pdfs/results/2024/aviva-plc-half-year-report-2024.pdf" class="source-link" target="_blank">https://static.aviva.io/content/dam/aviva-corporate/document...</a></div>
+                        
+                            <div class="meta-content"><a href="https://www.aviva.com/newsroom/news-releases/2025/08/HY2025-results-announcement/" class="source-link" target="_blank">https://www.aviva.com/newsroom/news-releases/2025/08/HY2025-...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"Insurance, Wealth & Retirement (IWR) sales up 9% to £21.5bn (HY24: £19.7bn). General Insurance premiums up 7% to £6,290m (HY24: £6,005m)."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Aviva is aggressively marketing and selling new products across all its main business lines. The HY2025 results explicitly report year-on-year sales growth in Insurance, Wealth, and Retirement (IWR) as well as General Insurance. The company is not in run-off; it is targeting "capital-light growth" and has recently acquired entities to expand its new business capacity (e.g., Probitas for Lloyd's market entry).</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">Has the company acquired a book or entity in the last 24 months?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Yes
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-high">
+                                82%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-high" style="width: 81.625%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>81.6%</strong>
+                            (High)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-medium">
+                            Moderate agreement between models (variance: 344.8)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-poor">
+                                        30%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://www.aviva.com/newsroom/news-releases/2025/07/aviva-completes-acquisition-of-direct-line/" class="source-link" target="_blank">https://www.aviva.com/newsroom/news-releases/2025/07/aviva-c...</a></div>
+                        
+                            <div class="meta-content"><a href="https://www.insurancetimes.co.uk/news/aviva-completes-249m-probitas-buy/1452419.article" class="source-link" target="_blank">https://www.insurancetimes.co.uk/news/aviva-completes-249m-p...</a></div>
+                        
+                            <div class="meta-content"><a href="https://www.aviva.com/newsroom/news-releases/2024/04/aviva-completes-acquisition-of-aig-life-limited/" class="source-link" target="_blank">https://www.aviva.com/newsroom/news-releases/2024/04/aviva-c...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"Direct Line and Aviva are pleased to announce that, following delivery of the Court Order to the Registrar of Companies on 1 July 2025, the scheme of arrangement has now become Effective in accordance with its terms."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Aviva has been highly active in M&A within the specified period. Key completions include: 1. Direct Line Group: Completed on 1 July 2025. 2. Probitas: Completed on 10 July 2024, marking entry into Lloyd's. 3. AIG Life Limited (UK): Acquisition completed in April 2024.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+    <div class="section">
+        <h2>Bulk Purchase Annuity (BPA) Capabilities</h2>
+
+        
+        <div class="qa-row">
+            <div class="question">Is the company active in the BPA / Pension Risk Transfer market?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Yes
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-high">
+                                94%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-high" style="width: 94.0%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>94.0%</strong>
+                            (High)
+                            <span class="confidence-type">• Ensemble of 5 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-high">
+                            High agreement between models (variance: 9.1)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://pensionsage.com/pa/Avivas-retirement-sales-up-33-per-cent-to-94bn-in-2024.php" class="source-link" target="_blank">https://pensionsage.com/pa/Avivas-retirement-sales-up-33-per...</a></div>
+                        
+                            <div class="meta-content"><a href="https://static.aviva.io/content/dam/aviva-corporate/documents/investors/pdfs/results/2024/aviva-plc-results-announcement-2024.pdf" class="source-link" target="_blank">https://static.aviva.io/content/dam/aviva-corporate/document...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"Aviva said this was driven by an increase in bulk purchase annuity (BPA) sales, which rose by 42 per cent over the year from £5.5bn in 2023 to £7.8bn in 2024."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">The documents explicitly state that BPA is a core component of Aviva's Retirement division. They reported record BPA sales in 2024 and continue to actively quote on deals in 2025, although volumes in H1 2025 (£2.0bn) were lower than H1 2024 due to market conditions.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">What is the approximate annual target or actual volume for BPA deals?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        £7.8bn
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                66%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 65.5%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>65.5%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-low">
+                            Low agreement between models (variance: 1452.9)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://pensionsage.com/pa/Avivas-retirement-sales-up-33-per-cent-to-94bn-in-2024.php" class="source-link" target="_blank">https://pensionsage.com/pa/Avivas-retirement-sales-up-33-per...</a></div>
+                        
+                            <div class="meta-content"><a href="https://pensionsage.com/pa/Aviva-BPA-completed-sales-hit-4.1bn.php" class="source-link" target="_blank">https://pensionsage.com/pa/Aviva-BPA-completed-sales-hit-4.1...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"BPA sales, which rose by 42 per cent over the year from £5.5bn in 2023 to £7.8bn in 2024... Aviva said that it is on track to meet its three-year ambition of £15-20bn of BPA volumes."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">The most recent full-year figure is £7.8 billion for 2024. The stated strategic ambition is £15-20 billion over three years, implying an average annual target of approximately £5-7 billion. H1 2025 actual sales were £2.0 billion.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">Does the company utilize funded reinsurance?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Yes
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-high">
+                                80%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-high" style="width: 79.7%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>79.7%</strong>
+                            (High)
+                            <span class="confidence-type">• Ensemble of 5 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-high">
+                            High agreement between models (variance: 23.9)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://www.spglobal.com/market-intelligence/en/news-insights/articles/2024/12/uk-pension-risk-transfer-market-to-withstand-regulator-s-reinsurance-clampdown-85971157" class="source-link" target="_blank">https://www.spglobal.com/market-intelligence/en/news-insight...</a></div>
+                        
+                            <div class="meta-content"><a href="https://www.ipe.com/aviva-links-with-prudential-financial-on-funded-reinsurance-deal/10048719.article" class="source-link" target="_blank">https://www.ipe.com/aviva-links-with-prudential-financial-on...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"Aviva PLC CFO Charlotte Jones said on an earnings call there would be 'no impact' on her company's funded reinsurance program because it is 'incredibly modest,' accounting for about 5% of the portfolio of matching adjustment assets related to Aviva's BPA business."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Aviva explicitly acknowledges the use of funded reinsurance (specifically citing deals with Prudential Financial). However, the CFO emphasizes that its usage is 'incredibly modest' at approximately 5% of the Matching Adjustment portfolio, to mitigate counterparty risk concerns raised by the PRA.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+    <div class="section">
+        <h2>Financial Health & Capital</h2>
+
+        
+        <div class="qa-row">
+            <div class="question">What is the most recent Solvency II / Solvency UK coverage ratio?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        177%
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                71%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 71.4%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>71.4%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 5 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-low">
+                            Low agreement between models (variance: 1293.9)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://www.aviva.com/newsroom/news-releases/2025/11/Q32025-trading-update/" class="source-link" target="_blank">https://www.aviva.com/newsroom/news-releases/2025/11/Q32025-...</a></div>
+                        
+                            <div class="meta-content"><a href="https://static.aviva.io/content/dam/aviva-corporate/documents/investors/pdfs/results/2025/Aviva-Q3-2025-trading-update-in-focus.pdf" class="source-link" target="_blank">https://static.aviva.io/content/dam/aviva-corporate/document...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"Estimated Solvency II shareholder cover ratio of 177% (HY25: 206%), in-line with our previous guidance, following the completion of the Direct Line acquisition..."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">While the ratio was 206% at HY 2025 (June 30, 2025), the most recent trading update (Q3 2025, published Nov 2025) reports an estimated ratio of 177%. This decrease is explicitly attributed to the capital deployed for the acquisition of Direct Line Group. The FY 2024 ratio was 203%.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">Does the company have an approved Matching Adjustment (MA)?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Yes
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-high">
+                                86%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-high" style="width: 86.1%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>86.1%</strong>
+                            (High)
+                            <span class="confidence-type">• Ensemble of 5 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-high">
+                            High agreement between models (variance: 10.6)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://static.aviva.io/content/dam/aviva-corporate/documents/investors/pdfs/results/2024/aviva-plc-results-announcement-2024.pdf" class="source-link" target="_blank">https://static.aviva.io/content/dam/aviva-corporate/document...</a></div>
+                        
+                            <div class="meta-content"><a href="https://static.aviva.io/content/dam/aviva-corporate/documents/investors/pdfs/regulatoryreturns/2024/31-dec-24-aviva-plc-single-group-wide-sfcr.pdf" class="source-link" target="_blank">https://static.aviva.io/content/dam/aviva-corporate/document...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"...Aviva reflected changes to the matching adjustment requirements at 30 June 2024. As a result, the matching adjustment cap on sub-investment grade assets has been removed..."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Aviva utilizes the Matching Adjustment (MA) for its annuity business. The 2024 financial disclosures highlight that Aviva adopted Solvency UK reforms regarding the MA on 30 June 2024, which included removing caps on sub-investment grade assets and using notched credit ratings.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">What is the current Contractual Service Margin (CSM) balance?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        £7.8bn
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-high">
+                                94%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-high" style="width: 93.5%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>93.5%</strong>
+                            (High)
+                            <span class="confidence-type">• Ensemble of 3 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-high">
+                            High agreement between models (variance: 24.7)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Source</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://static.aviva.io/content/dam/aviva-corporate/documents/investors/pdfs/results/2024/aviva-plc-results-announcement-2024.pdf" class="source-link" target="_blank">https://static.aviva.io/content/dam/aviva-corporate/document...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"IFRS Contractual service margin (CSM) 7,772 7,248"</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">The full year 2024 results explicitly list the Group IFRS Contractual Service Margin (CSM) at £7,772 million. The CSM specific to the Insurance, Wealth & Retirement (IWR) division is listed as £7,768 million.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+    <div class="section">
+        <h2>Actuarial Systems & Technology</h2>
+
+        
+        <div class="qa-row">
+            <div class="question">What is the primary actuarial modeling platform used?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        FIS Prophet
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                72%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 71.9%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>71.9%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 5 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-high">
+                            High agreement between models (variance: 51.0)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://www.aviva.com/careers/job-search/aviva-services-excellence-centre-poland/our-teams/" class="source-link" target="_blank">https://www.aviva.com/careers/job-search/aviva-services-exce...</a></div>
+                        
+                            <div class="meta-content"><a href="https://www.insuranceerm.com/content/tech-guide-corporate-statement.html?vendorid=95&editionid=2&corpid=8" class="source-link" target="_blank">https://www.insuranceerm.com/content/tech-guide-corporate-st...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"Our toolkit includes industry-leading software such as Prophet, R, Python, Tyche, and Radar..."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Aviva's actuarial recruitment pages and vendor statements confirm the use of Prophet (specifically FIS Insurance Risk Suite) as a core valuation tool. Additionally, Tyche is explicitly cited as the platform used for capital modeling across both non-life and life units. Therefore, Prophet and Tyche are the primary platforms.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">Does the company explicitly mention Cloud Computing or Grid transformation?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Yes
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                58%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 58.375%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>58.4%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-low">
+                            Low agreement between models (variance: 1161.0)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://www.microsoft.com/en/customers/story/24935-aviva-azure" class="source-link" target="_blank">https://www.microsoft.com/en/customers/story/24935-aviva-azu...</a></div>
+                        
+                            <div class="meta-content"><a href="https://www.snowflake.com/en/customers/all-customers/case-study/aviva/" class="source-link" target="_blank">https://www.snowflake.com/en/customers/all-customers/case-st...</a></div>
+                        
+                            <div class="meta-content"><a href="https://aws.amazon.com/blogs/machine-learning/how-aviva-built-a-scalable-secure-and-reliable-mlops-platform-using-amazon-sagemaker/" class="source-link" target="_blank">https://aws.amazon.com/blogs/machine-learning/how-aviva-buil...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"Aviva implemented Azure and GitHub Copilot, to modernise its legacy hosting platform..."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Aviva has multiple documented case studies regarding cloud transformation. They use Microsoft Azure for hosting and legacy modernisation, Snowflake on AWS for data warehousing (migrating 1.3PB of data), and Amazon SageMaker (AWS) for MLOps.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+    <div class="section">
+        <h2>Asset-Liability Management (ALM)</h2>
+
+        
+        <div class="qa-row">
+            <div class="question">Does the company hold Equity Release Mortgages (ERMs) or Infrastructure Debt?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Yes
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                65%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 65.125%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>65.1%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-low">
+                            Low agreement between models (variance: 1438.9)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://insights.lcp.com/rs/032-PAO-331/images/LCP-PRT-Insurer-overviews-2024.pdf" class="source-link" target="_blank">https://insights.lcp.com/rs/032-PAO-331/images/LCP-PRT-Insur...</a></div>
+                        
+                            <div class="meta-content"><a href="https://www.avivainvestors.com/en-gb/capabilities/private-markets/infrastructure/infrastructure-debt/" class="source-link" target="_blank">https://www.avivainvestors.com/en-gb/capabilities/private-ma...</a></div>
+                        
+                            <div class="meta-content"><a href="https://www.globalcapital.com/securitization/article/2e8fmjt17zkh81ffk9b0g/securitization/rmbs-europe/more-equity-release-rmbs-could-follow-aviva-deal" class="source-link" target="_blank">https://www.globalcapital.com/securitization/article/2e8fmjt...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"Annuity asset portfolio... Equity release mortgages 12%... Infrastructure 5%..."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Third-party analysis of Aviva's annuity asset portfolio (LCP Report) confirms substantial holdings in Equity Release Mortgages (12%) and Infrastructure (5%) as of Dec 2023. Aviva also originates these assets via Aviva Investors to back their annuity liabilities.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+    <div class="section">
+        <h2>Strategic & Subjective Analysis</h2>
+
+        
+        <div class="qa-row">
+            <div class="question">Is the strategic focus on Value of New Business (VNB) or Expense Efficiency?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Expense Efficiency (and Capital Generation)
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                62%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 61.5%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>61.5%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 5 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-low">
+                            Low agreement between models (variance: 972.5)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://static.aviva.io/content/dam/aviva-corporate/documents/investors/pdfs/results/2024/aviva-plc-results-announcement-2024.pdf" class="source-link" target="_blank">https://static.aviva.io/content/dam/aviva-corporate/document...</a></div>
+                        
+                            <div class="meta-content"><a href="https://www.aviva.com/newsroom/news-releases/2025/11/Q32025-trading-update/" class="source-link" target="_blank">https://www.aviva.com/newsroom/news-releases/2025/11/Q32025-...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"Raising cost synergy ambition to £225m... Cost synergies run-rate savings expected to be fully achieved in 2028."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">While VNB is reported (e.g., £300m in 2024), the executive narrative overwhelmingly prioritizes Operating Profit, Solvency II Own Funds Generation (OFG), and Cash Remittances. The recent acquisition of Direct Line is heavily framed around synergies (£225m cost synergies) and efficiency. The CEO states the business is 'accelerating capital-light growth' and emphasizes delivering on 'cost reduction' targets. VNB growth is present but appears secondary to the efficiency and capital generation narrative.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">What are the stated operational bottlenecks?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Legacy technology hosting and data fragmentation.
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                70%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 70.125%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>70.1%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-high">
+                            High agreement between models (variance: 18.4)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://www.microsoft.com/en/customers/story/24935-aviva-azure" class="source-link" target="_blank">https://www.microsoft.com/en/customers/story/24935-aviva-azu...</a></div>
+                        
+                            <div class="meta-content"><a href="https://www.snowflake.com/en/customers/all-customers/case-study/aviva/" class="source-link" target="_blank">https://www.snowflake.com/en/customers/all-customers/case-st...</a></div>
+                        
+                            <div class="meta-content"><a href="https://www.insurancetimes.co.uk/analysis/techtalk-insurers-still-grappling-with-legacy-system-challenges/1453780.article" class="source-link" target="_blank">https://www.insurancetimes.co.uk/analysis/techtalk-insurers-...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"Aviva faced the challenge of modernising its legacy hosting platform and improving efficiency... its data teams faced challenges with managing and maintaining several different data platforms."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Aviva explicitly cites the challenge of modernising its physical legacy hosting platform and dealing with disparate data platforms resulting from growth and acquisitions. The Snowflake case study notes that maintaining different data platforms created inefficiencies, which drove the migration to a unified data cloud. The acquisition of Direct Line is also noted to involve significant integration work, which implies overcoming the bottleneck of combining two large, distinct operational estates.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">Has the company acknowledged SS5/25 or Climate Risk modeling gaps?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        The information you have requested is unavailable in the document.
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                59%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 58.875%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>58.9%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-medium">
+                            Moderate agreement between models (variance: 222.9)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-fair">
+                                        40%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-poor">
+                                        30%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-fair">
+                                        40%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://static.aviva.io/content/dam/aviva-corporate/documents/investors/pdfs/results/2024/aviva-plc-results-announcement-2024.pdf" class="source-link" target="_blank">https://static.aviva.io/content/dam/aviva-corporate/document...</a></div>
+                        
+                            <div class="meta-content"><a href="https://www.bankofengland.co.uk/prudential-regulation/publication/2025/december/enhancing-banks-and-insurers-approaches-to-managing-climate-related-risks-ss" class="source-link" target="_blank">https://www.bankofengland.co.uk/prudential-regulation/public...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"The information you have requested is unavailable in the document."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">PRA Supervisory Statement 5/25 (SS5/25) was published in December 2025. Aviva's most recent available detailed disclosures (HY 2025 and Q3 2025 updates) pre-date or barely overlap with the release of this specific regulation. While Aviva has a "Climate Transition Plan" and models climate scenarios, specific public acknowledgment of gaps against the new SS5/25 standard is not yet available in the public domain.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+
+    <div class="footer">
+        Generated by Automated Research Agent - always verify information from primary sources.
+    </div>
+</div>
+
+</body>
+</html>

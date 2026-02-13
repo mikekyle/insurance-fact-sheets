@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fact Sheet: LV=</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 40px; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        h1 { color: #2c3e50; border-bottom: 2px solid #e67e22; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 30px; background-color: #ecf0f1; padding: 10px; border-radius: 4px; }
+        .qa-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 12px 0; }
+        .question { font-weight: 600; color: #555; width: 60%; }
+
+        /* The Answer & Tooltip Container */
+        .answer-container { position: relative; width: 35%; text-align: right; cursor: help; }
+        .answer-text { font-weight: bold; color: #2980b9; padding: 5px 10px; background: #eaf2f8; border-radius: 4px; display: inline-block; }
+        .answer-unknown { color: #95a5a6; background: #f5f5f5; font-style: italic; }
+
+        /* Confidence Badge */
+        .confidence-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            margin-left: 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: bold;
+            vertical-align: middle;
+        }
+
+        /* Confidence Badge Colors */
+        .conf-high { background-color: #27ae60; color: white; }
+        .conf-medium { background-color: #f39c12; color: white; }
+        .conf-low { background-color: #e74c3c; color: white; }
+
+        /* Confidence Bar */
+        .confidence-bar-container {
+            width: 100%;
+            height: 4px;
+            background-color: #ecf0f1;
+            border-radius: 2px;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+
+        .confidence-bar {
+            height: 100%;
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .bar-high { background: linear-gradient(90deg, #27ae60, #2ecc71); }
+        .bar-medium { background: linear-gradient(90deg, #f39c12, #f1c40f); }
+        .bar-low { background: linear-gradient(90deg, #e74c3c, #e67e22); }
+
+        /* The Hidden Tooltip */
+        .tooltip {
+            visibility: hidden;
+            width: 400px;
+            background-color: #2c3e50;
+            color: #fff;
+            text-align: left;
+            border-radius: 8px;
+            padding: 18px;
+            position: absolute;
+            z-index: 1;
+            top: 125%;
+            right: 0;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+            font-size: 0.85em;
+            font-weight: normal;
+        }
+
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            bottom: 100%;
+            right: 20px;
+            border-width: 6px;
+            border-style: solid;
+            border-color: transparent transparent #2c3e50 transparent;
+        }
+
+        .answer-container:hover .tooltip { visibility: visible; opacity: 1; }
+
+        /* Tooltip Details */
+        .meta-label { color: #e67e22; font-size: 0.75em; text-transform: uppercase; margin-top: 10px; display: block; font-weight: bold; }
+        .meta-content { display: block; margin-bottom: 5px; line-height: 1.4; }
+        .quote { font-style: italic; color: #bdc3c7; border-left: 3px solid #7f8c8d; padding-left: 10px; margin-top: 5px; }
+
+        /* Confidence Factors Display */
+        .factors-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .factor-item {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 6px;
+            border-radius: 4px;
+        }
+
+        .factor-name {
+            font-size: 0.7em;
+            color: #95a5a6;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .factor-score {
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .score-excellent { color: #2ecc71; }
+        .score-good { color: #3498db; }
+        .score-fair { color: #f39c12; }
+        .score-poor { color: #e74c3c; }
+
+        /* Model Agreement Indicator */
+        .agreement-indicator {
+            margin-top: 8px;
+            padding: 6px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            font-size: 0.75em;
+        }
+
+        .agreement-high { color: #2ecc71; }
+        .agreement-medium { color: #f39c12; }
+        .agreement-low { color: #e74c3c; }
+
+        /* Enhanced vs Legacy Indicator */
+        .confidence-type {
+            font-size: 0.7em;
+            color: #95a5a6;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .footer { margin-top: 50px; font-size: 0.8em; color: #999; text-align: center; }
+
+        /* Source links */
+        .source-link { color: #3498db; text-decoration: none; }
+        .source-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h1>LV=</h1>
+        <span style="color:#7f8c8d;">2024-02-11</span>
+    </div>
+
+    
+    <div class="section">
+        <h2>Corporate Strategy & Structure</h2>
+
+        
+        <div class="qa-row">
+            <div class="question">Is the company actively writing new business?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Active New Business Writer
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                70%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 69.75%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>69.8%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-low">
+                            Low agreement between models (variance: 1644.6)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://www.lvadviser.com/knowledge-centre/news-hub/lv-announces-2024-financial-results" class="source-link" target="_blank">https://www.lvadviser.com/knowledge-centre/news-hub/lv-annou...</a></div>
+                        
+                            <div class="meta-content"><a href="https://www.lv.com/about-us/company-information/annual-report" class="source-link" target="_blank">https://www.lv.com/about-us/company-information/annual-repor...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"Overall, new business sales on a Present Value of New Business Premiums (PVNBP) basis grew by 4% to £1,229 million (FY 2023: £1,187m). ... Strong growth in Protection resulted in a year-on-year sales increase of 12% and Equity Release mortgage advances increased positively."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">The company's 2024 financial results explicitly report growth in new business sales across Protection and Equity Release lines, confirming they are actively writing new business and not in run-off.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">Has the company acquired a book or entity in the last 24 months?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        No
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                52%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 52.1%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>52.1%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 5 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-high">
+                            High agreement between models (variance: 29.8)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-poor">
+                                        30%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-fair">
+                                        40%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Source</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://www.lvadviser.com/knowledge-centre/news-hub/lv-announces-2024-financial-results" class="source-link" target="_blank">https://www.lvadviser.com/knowledge-centre/news-hub/lv-annou...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"Our financial performance is a result of our forward-looking strategic approach and points to the significant benefit of our diversified portfolio, which includes award-winning products, services and advice."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">A review of financial announcements and press releases for 2023 and 2024 reveals no mentions of completed mergers, acquisitions, or Part VII transfers. The strategy focuses on organic growth, cost efficiency, and partnerships (e.g., with BlackRock for fund management) rather than inorganic acquisition of books.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+    <div class="section">
+        <h2>Bulk Purchase Annuity (BPA) Capabilities</h2>
+
+        
+        <div class="qa-row">
+            <div class="question">Is the company active in the BPA / Pension Risk Transfer market?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        No
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                62%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 62.3%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>62.3%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 5 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-low">
+                            Low agreement between models (variance: 996.9)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://www.professionalpensions.com/news/2451009/lv-delays-entering-bulk-annuity-market" class="source-link" target="_blank">https://www.professionalpensions.com/news/2451009/lv-delays-...</a></div>
+                        
+                            <div class="meta-content"><a href="https://www.lvadviser.com/knowledge-centre/news-hub/lv-announces-2024-financial-results" class="source-link" target="_blank">https://www.lvadviser.com/knowledge-centre/news-hub/lv-annou...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"LV= has said it will not launch into bulk annuities this year so that it can focus on its core strategy... made the decision not to enter the market at this time."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Historical reports indicate LV= shelved plans to enter the BPA market to focus on individual protection and retirement products. Current financial disclosures list 'Protection,' 'Savings and Retirement,' and 'Equity Release' as key business lines, with no mention of Bulk Purchase Annuities or Defined Benefit De-risking activity.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">What is the approximate annual target or actual volume for BPA deals?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        £0bn
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                55%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 54.75%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>54.8%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-high">
+                            High agreement between models (variance: 92.2)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-fair">
+                                        40%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-poor">
+                                        30%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Source</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://www.lvadviser.com/knowledge-centre/news-hub/lv-announces-2024-financial-results" class="source-link" target="_blank">https://www.lvadviser.com/knowledge-centre/news-hub/lv-annou...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"Savings and Retirement sales remained stable at £831 million and there was positive growth for equity release sales."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">As the company is not active in the BPA market, the volume is zero. Sales figures are provided for retail lines only.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">Does the company utilize funded reinsurance?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        No
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-high">
+                                79%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-high" style="width: 79.2%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>79.2%</strong>
+                            (High)
+                            <span class="confidence-type">• Ensemble of 5 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-high">
+                            High agreement between models (variance: 58.2)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Source</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://www.allianz.co.uk/content/dam/onemarketing/azuk/allianzcouk/about-us/docs/pdfs/financial-results/sfcr/2024/liverpool-victoria-insurance-company-limited-solvency-and-financial-condition-report-2024.pdf" class="source-link" target="_blank">https://www.allianz.co.uk/content/dam/onemarketing/azuk/alli...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"The Company had a Whole Account Quota Share (“WAQS”) reinsurance arrangement of 40% impacting the net results."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">While LV='s General Insurance arm (now Allianz) uses quota share reinsurance, there is no evidence in the life company's disclosures of 'funded reinsurance' (asset-intensive reinsurance) typically used to back annuity liabilities in the BPA market. The company focuses on retail protection and smoothed managed funds rather than heavy annuity de-risking requiring funded reinsurance.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+    <div class="section">
+        <h2>Financial Health & Capital</h2>
+
+        
+        <div class="qa-row">
+            <div class="question">What is the most recent Solvency II / Solvency UK coverage ratio?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        192%
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-high">
+                                86%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-high" style="width: 85.6%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>85.6%</strong>
+                            (High)
+                            <span class="confidence-type">• Ensemble of 5 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-high">
+                            High agreement between models (variance: 13.5)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Source</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://www.lvadviser.com/knowledge-centre/news-hub/lv-announces-2024-financial-results" class="source-link" target="_blank">https://www.lvadviser.com/knowledge-centre/news-hub/lv-annou...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"Continued robust capital position with a Capital Coverage Ratio (CCR) of 192%."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">The 2024 financial results press release explicitly states the Solvency II Capital Coverage Ratio is 192%.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">Does the company have an approved Matching Adjustment (MA)?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Yes
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-high">
+                                86%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-high" style="width: 85.625%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>85.6%</strong>
+                            (High)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-high">
+                            High agreement between models (variance: 10.3)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://register.fca.org.uk/servlet/servlet.FileDownload?file=00P4G0000235htQUAQ" class="source-link" target="_blank">https://register.fca.org.uk/servlet/servlet.FileDownload?fil...</a></div>
+                        
+                            <div class="meta-content"><a href="https://www.lvadviser.com/smoothed-investments/adviser-investment-centre/meet-the-team" class="source-link" target="_blank">https://www.lvadviser.com/smoothed-investments/adviser-inves...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"The Prudential Regulation Authority (“the PRA”) has decided to grant the firm approval to apply a matching adjustment to the risk-free interest rate term structure."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Regulatory notices confirm the approval of a Matching Adjustment in 2020, and current employee profiles reference the management of the 'Matching Adjustment portfolio,' confirming it is still in use.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">What is the current Contractual Service Margin (CSM) balance?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text answer-unknown">
+                        Not Found
+                    </span>
+
+                    
+                </div>
+
+                
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>67.4%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-medium">
+                            Moderate agreement between models (variance: 213.0)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-fair">
+                                        40%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-poor">
+                                        30%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-fair">
+                                        40%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Source</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://assets.kpmg.com/content/dam/kpmgsites/uk/pdf/2025/04/year-end-results-life-insurers.pdf.coredownload.inline.pdf" class="source-link" target="_blank">https://assets.kpmg.com/content/dam/kpmgsites/uk/pdf/2025/04...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"The YE24 disclosures for Wesleyan, Quilter, SJP, LV=... did not provide sufficient information to support the analysis shown below and hence have been excluded from these slides."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Detailed industry analysis by KPMG explicitly notes that LV= (along with other mutuals and smaller insurers) did not provide sufficient disclosures to analyze the CSM balance in the same way as listed peers. While they report IFRS 17 profit impacts, the specific CSM balance figure is not prominent in the available public summaries or press releases.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+    <div class="section">
+        <h2>Actuarial Systems & Technology</h2>
+
+        
+        <div class="qa-row">
+            <div class="question">What is the primary actuarial modeling platform used?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        FIS Prophet
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                49%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 48.875%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>48.9%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-low">
+                            Low agreement between models (variance: 839.4)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-poor">
+                                        30%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://talents.studysmarter.co.uk/companies/lv/bournemouth/valuation-actuary-25668083/" class="source-link" target="_blank">https://talents.studysmarter.co.uk/companies/lv/bournemouth/...</a></div>
+                        
+                            <div class="meta-content"><a href="https://www.aplitrak.com/?adid=TmF0YWxpZS5MaWdodGZvb3QuMjU5MzIuMTU1MEBvbGl2ZXJqYW1lc2Fzc29jaWF0ZXMuYXBsaXRyYWsuY29t&ref=levels.fyi&src=levels.fyi&utm_source=levels.fyi" class="source-link" target="_blank">https://www.aplitrak.com/?adid=TmF0YWxpZS5MaWdodGZvb3QuMjU5M...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"Demonstrate strong analytical skills, including experience with tools such as Excel, R, Python, and Power BI – knowledge of Prophet or similar will be key."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Multiple job advertisements for actuarial roles at LV= (Valuation Actuary, Prophet Modeller) explicitly require 'Prophet' skills, indicating it is the primary valuation platform.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">Does the company explicitly mention Cloud Computing or Grid transformation?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        No
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                45%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 45.0%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>45.0%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-high">
+                            High agreement between models (variance: 47.3)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-poor">
+                                        0%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Source</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://www.clustre.net/work-lv/" class="source-link" target="_blank">https://www.clustre.net/work-lv/</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"This approach allowed LV= to overcome significant tech challenges, including the need to pull data from up to 50 different legacy systems."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">While there is evidence of legacy system transformation (Guidewire for General Insurance), there is no specific public mention of 'Azure,' 'AWS,' or 'Cloud Grid' specifically for the *Life* actuarial modeling functions in the searched documents.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+    <div class="section">
+        <h2>Asset-Liability Management (ALM)</h2>
+
+        
+        <div class="qa-row">
+            <div class="question">Does the company hold Equity Release Mortgages (ERMs) or Infrastructure Debt?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Yes
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                56%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 56.5%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>56.5%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-high">
+                            High agreement between models (variance: 82.5)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-poor">
+                                        0%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://mortgagesoup.co.uk/v-reports-strong-2024-financial-results-as-protection-and-equity-release-flourish/" class="source-link" target="_blank">https://mortgagesoup.co.uk/v-reports-strong-2024-financial-r...</a></div>
+                        
+                            <div class="meta-content"><a href="https://www.bankofengland.co.uk/-/media/boe/files/prudential-regulation/letter/2022/january/life-insurance-stress-test-2022-instructions.pdf" class="source-link" target="_blank">https://www.bankofengland.co.uk/-/media/boe/files/prudential...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"Equity Release mortgage advances increased positively."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">LV= is explicitly listed by the PRA as a firm participating in stress tests involving Equity Release Mortgages (ERMs), and their 2024 results highlight growth in 'Equity Release mortgage advances,' confirming they hold these assets.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+    <div class="section">
+        <h2>Strategic & Subjective Analysis</h2>
+
+        
+        <div class="qa-row">
+            <div class="question">Is the strategic focus on Value of New Business (VNB) or Expense Efficiency?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Expense Efficiency (with focus on Operating Capital Generation)
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                66%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 65.7%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>65.7%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 5 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-low">
+                            Low agreement between models (variance: 1086.3)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Source</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://www.lvadviser.com/knowledge-centre/news-hub/lv-announces-2024-financial-results" class="source-link" target="_blank">https://www.lvadviser.com/knowledge-centre/news-hub/lv-annou...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"I am also pleased to highlight a positive year in terms of driving down operating expenses by 4%. Members will appreciate that we are not only returning profits to them... but we are also running the business efficiently on their behalf."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">The CEO's commentary heavily emphasizes 'cost discipline,' 'operational efficiency,' and 'driving down operating expenses' alongside 'operating capital generation.' While they mention sales growth, the strategic rhetoric prioritizes efficiency and capital generation for member returns.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">What are the stated operational bottlenecks?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Legacy system complexity
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                64%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 63.5%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>63.5%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 5 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-medium">
+                            Moderate agreement between models (variance: 185.6)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-poor">
+                                        30%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Source</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://www.guidewire.com/about/press-center/press-releases/20190114/lv-general-insurance-deploys-guidewire" class="source-link" target="_blank">https://www.guidewire.com/about/press-center/press-releases/...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"LV= completely replaced their core legacy systems... We have simplified many of our core transactional processes... reducing operating expenses."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Although the major Guidewire transformation was for the General Insurance business (now Allianz), the Life business's continued focus on 'cost efficiencies' and streamlining 'adviser interactions' suggests that legacy complexity remains a focus area for operational improvement.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">Has the company acknowledged SS5/25 or Climate Risk modeling gaps?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Acknowledged transition planning
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                65%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 65.375%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>65.4%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-high">
+                            High agreement between models (variance: 17.3)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://www.lv.com/about-us/lv-cares" class="source-link" target="_blank">https://www.lv.com/about-us/lv-cares</a></div>
+                        
+                            <div class="meta-content"><a href="https://www.lv.com/about-us/lv-cares/product-reporting" class="source-link" target="_blank">https://www.lv.com/about-us/lv-cares/product-reporting</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">"Our key initiatives: Develop and share a transition plan to net zero... Our TCFD product reports aim to give our members... a greater understanding of the greenhouse gas emissions..."</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">LV= actively publishes TCFD reports and has committed to developing a 'transition plan to net zero,' directly addressing the core requirements of the PRA's climate expectations (including the precursor SS3/19 and upcoming SS5/25). They acknowledge the need to 'further reduce the environmental impact' and 'invest responsibly.'</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+
+    <div class="footer">
+        Generated by Automated Research Agent - always verify information from primary sources.
+    </div>
+</div>
+
+</body>
+</html>

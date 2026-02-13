@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fact Sheet: Symetra</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 40px; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        h1 { color: #2c3e50; border-bottom: 2px solid #e67e22; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 30px; background-color: #ecf0f1; padding: 10px; border-radius: 4px; }
+        .qa-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 12px 0; }
+        .question { font-weight: 600; color: #555; width: 60%; }
+
+        /* The Answer & Tooltip Container */
+        .answer-container { position: relative; width: 35%; text-align: right; cursor: help; }
+        .answer-text { font-weight: bold; color: #2980b9; padding: 5px 10px; background: #eaf2f8; border-radius: 4px; display: inline-block; }
+        .answer-unknown { color: #95a5a6; background: #f5f5f5; font-style: italic; }
+
+        /* Confidence Badge */
+        .confidence-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            margin-left: 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: bold;
+            vertical-align: middle;
+        }
+
+        /* Confidence Badge Colors */
+        .conf-high { background-color: #27ae60; color: white; }
+        .conf-medium { background-color: #f39c12; color: white; }
+        .conf-low { background-color: #e74c3c; color: white; }
+
+        /* Confidence Bar */
+        .confidence-bar-container {
+            width: 100%;
+            height: 4px;
+            background-color: #ecf0f1;
+            border-radius: 2px;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+
+        .confidence-bar {
+            height: 100%;
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .bar-high { background: linear-gradient(90deg, #27ae60, #2ecc71); }
+        .bar-medium { background: linear-gradient(90deg, #f39c12, #f1c40f); }
+        .bar-low { background: linear-gradient(90deg, #e74c3c, #e67e22); }
+
+        /* The Hidden Tooltip */
+        .tooltip {
+            visibility: hidden;
+            width: 400px;
+            background-color: #2c3e50;
+            color: #fff;
+            text-align: left;
+            border-radius: 8px;
+            padding: 18px;
+            position: absolute;
+            z-index: 1;
+            top: 125%;
+            right: 0;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+            font-size: 0.85em;
+            font-weight: normal;
+        }
+
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            bottom: 100%;
+            right: 20px;
+            border-width: 6px;
+            border-style: solid;
+            border-color: transparent transparent #2c3e50 transparent;
+        }
+
+        .answer-container:hover .tooltip { visibility: visible; opacity: 1; }
+
+        /* Tooltip Details */
+        .meta-label { color: #e67e22; font-size: 0.75em; text-transform: uppercase; margin-top: 10px; display: block; font-weight: bold; }
+        .meta-content { display: block; margin-bottom: 5px; line-height: 1.4; }
+        .quote { font-style: italic; color: #bdc3c7; border-left: 3px solid #7f8c8d; padding-left: 10px; margin-top: 5px; }
+
+        /* Confidence Factors Display */
+        .factors-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .factor-item {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 6px;
+            border-radius: 4px;
+        }
+
+        .factor-name {
+            font-size: 0.7em;
+            color: #95a5a6;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .factor-score {
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .score-excellent { color: #2ecc71; }
+        .score-good { color: #3498db; }
+        .score-fair { color: #f39c12; }
+        .score-poor { color: #e74c3c; }
+
+        /* Model Agreement Indicator */
+        .agreement-indicator {
+            margin-top: 8px;
+            padding: 6px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            font-size: 0.75em;
+        }
+
+        .agreement-high { color: #2ecc71; }
+        .agreement-medium { color: #f39c12; }
+        .agreement-low { color: #e74c3c; }
+
+        /* Enhanced vs Legacy Indicator */
+        .confidence-type {
+            font-size: 0.7em;
+            color: #95a5a6;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .footer { margin-top: 50px; font-size: 0.8em; color: #999; text-align: center; }
+
+        /* Source links */
+        .source-link { color: #3498db; text-decoration: none; }
+        .source-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h1>Symetra</h1>
+        <span style="color:#7f8c8d;">2026-02-11</span>
+    </div>
+
+    
+    <div class="section">
+        <h2>Corporate Strategy & Structure</h2>
+
+        
+        <div class="qa-row">
+            <div class="question">Is the company actively writing new business?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Active New Business Writer
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                50%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 50.375%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>50.4%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-low">
+                            Low agreement between models (variance: 878.5)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-fair">
+                                        40%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEA8Hb-uwwiXBy-2LvRcr9DrEMZ23clmYqrCXWuiapE3RD3luUwNHmo8f4DLZVXC46oBRE7kjYe6yy04HVvKKfFd_eMRAoaS31jYFDOy4k=" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGFQLrtJO63OpCsM0DpNg-mr3xnOmlCX_gkZTzAxW5uRMKInfSacT7N2S4oWMTDdcX7Jcsj_ntHsEENHTWq_xqyWCeb0fteVgETj3W4TQUgqE5lLJd4uRU9Oz44hd4ga3YcJ1_Hma2JwEPlnCeCsdyPjbhLDM31zNDpMkKfGDPznGmLl4dAn-Z26mvoINRCROmbpVZSG_4fdDk0KAr6Dl_PHIzpJiCYbpP3bfdg6tjb7g==" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG8F39pZL_KjmM6OtqgrcPLklAuQsf3ixhKwI0toVXPNsjIIjc9CuwHrdMbUp2FggMRFYARzc-U-5eKjPV5zG4zIuPutKuEVGc-eea9F7RlxHOIeHtzNwIKbhxINDvDlpgtPm8RBm8y2QPEwxafM32X5MBCkkt8VsHgBSFLSmc=" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEN8SLlPqOPltspR8MW-JpTx3P12f4LJ_qES2iJEqgL6lnWzs4JB2wF9z2F7xrTMV7EgEJgC6MP-p2nveM8WFoupoJq2QGGvIY3K3RlPKc2-FRcSf95SIrF4SlBs8RTGlmoCxjyS-Mx0HSODQ92otnQm60m0VWddetSbFyJcMuxszGuXZBWv8o9YE5GyKErajlTNugCW0UdCeZB-HjYuaxXdm5sr59A5hcFe-tkefsYRC4t5g9ILyJEy1k=" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">""Symetra Life Insurance Company announced its acquisition through reinsurance of Dearborn Group's life and disability business closed on Oct 1... The arrangement includes a multi-year distribution agreement... through which Symetra's LAD products will be available to HCSC health care customers." [cite: 3] "Well-positioned to execute on our growth plans. Committed to our products and distribution strategies: Annuities with transparent features and benefits... Life insurance products that provide guarantees, flexibility and access." [cite: 2]"</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">The company is actively marketing new products (e.g., SwiftTerm, fixed indexed annuities) and has recently engaged in significant M&A activity to expand its distribution and covered lives, specifically the acquisition of Dearborn Group's business. They are actively launching marketing campaigns (e.g., "Plan Well, Play Well" with Sue Bird) and entering new distribution agreements.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">Has the company acquired a book or entity in the last 24 months?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Yes
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                70%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 70.3%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>70.3%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 5 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-low">
+                            Low agreement between models (variance: 1244.7)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-excellent">
+                                        90%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-excellent">
+                                        100%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGFQLrtJO63OpCsM0DpNg-mr3xnOmlCX_gkZTzAxW5uRMKInfSacT7N2S4oWMTDdcX7Jcsj_ntHsEENHTWq_xqyWCeb0fteVgETj3W4TQUgqE5lLJd4uRU9Oz44hd4ga3YcJ1_Hma2JwEPlnCeCsdyPjbhLDM31zNDpMkKfGDPznGmLl4dAn-Z26mvoINRCROmbpVZSG_4fdDk0KAr6Dl_PHIzpJiCYbpP3bfdg6tjb7g==" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEzAHivuoXdy69OcOQHH-Wan8-0aE3XxyJWzFYU07_A5CfB3_b8RYclaoWJXdyoYU76motfHPqhxvmsrdt3Ui27jY5VwtEDCPNORXf4e4Ug-H1viSli6OP2UjuGzCJkCZwLc-jSZQFDcCoGSSWaqnYpsjBpVKtTnGx6fidC07bCdxvoj97kIb76KxmmQPnbYe4-MKnEJX_Rqndy7Eb08JRost3xFkmdbzdo7gPcmlcoH79D" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfhe64OG3YVww_rswI1ocoKTAErmmsCc7z5LNM_JU517i0pjGeuwwrYxs2Y1mGr8GHrTNmVxyApNl4LvufKFL15pHuMbTPBAmNBZh5Yw0PVv0xuNSFNUiEhCuHQ2E1GduK26SaaUCTLnJGyTF2TUdUyls1QkHA" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">""Symetra Life Insurance Company announced its acquisition through reinsurance of Dearborn Group's life and disability business closed on Oct 1. in accordance with the terms of the definitive agreement reported on June 30." [cite: 3]"</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Multiple sources confirm the acquisition of Dearborn Group's life and disability business from Health Care Service Corporation (HCSC). The deal involves both a reinsurance transaction and a product distribution arrangement, significantly increasing Symetra's scale in the employee benefits market.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+    <div class="section">
+        <h2>Bulk Purchase Annuity (BPA) Capabilities</h2>
+
+        
+        <div class="qa-row">
+            <div class="question">Is the company active in the BPA / Pension Risk Transfer market?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        No
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                56%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 56.5%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>56.5%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-medium">
+                            Moderate agreement between models (variance: 137.5)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-poor">
+                                        30%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-poor">
+                                        0%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFhz52ONBqLqi7NalJ9EkJANhAc5FapzU2KFtynqHxjfIUfrP_uDccGEOIgnW3nyrb2U6HjYJmCG8xk8DI_pbWemXMrpnc0WN6yDUV98u7iibcQdHLAn-qCdkLEHjl-XJgnbZD0uHMStVsDHSE58qOcYlcz_S4x7ALut07CNGQbQg==" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGLI2qRISGkdL__nBhNFfC3K_Rs2UhB-SOSBMOff7kaFKccYB5_MTcEhPhsVB6bKJNMg1cv5IFRBMY3JzRfSa2Y68J8LoT7j7KFbdV9rEnB1Fh_vOGuEW-EJ3X_-4AQmd5tcDA3QCLCAzNQiQxhrQqsK3eHvQEvnjoV8OtWxyghkxs-ic-cuebFu3Wxvz7QcLejYW08UNWX1PaQYkl-n_yBQgEcJryy-2BCIcA9kQc=" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFt6Bgbqvayi7OCFDxte33gCbSgz5D3J7DjFPRcuZcUJ54DRp1tW0N9vdAvnfI3ROEidgqi-cZcKPMFtA6lCETCjgoXzeNL3VxZjiXMkdYrlwDcMsy47nWcuW_6PVj7EszfZnzj-cAHAlIIYB1wNjK1GQWDV-OuslM33Z_pT45ecUddGU4fAYYE" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">""Symetra Life Insurance Company announced today that it has entered into a reinsurance agreement with Resolution Re that transfers financial responsibility for all of Symetra's structured settlement annuity contracts and a smaller block of income annuities to Resolution Re. Symetra ceased selling structured settlement annuities in 2012." [cite: 7]"</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Unlike major PRT players (e.g., Prudential, Athene, L&G), Symetra's recent strategic moves involve *ceding* legacy structured settlement liabilities (a form of payout annuity often associated with de-risking) to reinsurers like Resolution Re. Their "Retirement Division" focuses on retail products like Fixed Indexed Annuities (FIA) and Registered Index-Linked Annuities (RILA) rather than defined benefit de-risking for pension funds. While they operate in the "Group" space, this is primarily for "Medical Stop Loss" and "Group Life/Disability," not Pension Risk Transfer.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">What is the approximate annual target or actual volume for BPA deals?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        £0bn
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-low">
+                                16%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-low" style="width: 15.5%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>15.5%</strong>
+                            (Low)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-medium">
+                            Moderate agreement between models (variance: 240.4)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-poor">
+                                        30%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-poor">
+                                        30%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-fair">
+                                        40%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-poor">
+                                        0%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-fair">
+                                        40%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG7oFykm0jBXDke17-5pPi3FZxuQYT_mxfNBLpE3cS4SAwX8rQ0wWQF0h9NKyP-f0yXx17nHt_pT3cIpzwjQLmoHGsvQxbGDTKdeBcRFKoNxokuvhzP4ZsoawIHjKS1p5hYReqy44-hJ9vRlWrRmCh8O8Um6d-61B1yFomCpzRTna3mjj0MyYSGfQ2ODe63lgsDYmBNdoLSWNSxL6ljMb45zQ==" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFIKzDVBgdgzK3MczGkn87cE5_FqkkByIls3_40PiuUYvYtXwqOm2gwAou2PQAa27FSySBwouCCeXyHZr9D2J-Q2uLan8RLUX71qSeq5WaW4lcn7ECUXOd9iXp1JysBlo_PiBVBh_c-WqCSA8h8Lmx4yo-Db43nm6JP-adXBsd11H8GpFoIP_klaC3KqeS2v9NhvfcxfmBvShxkizibnZmH1I4PWLc09_8k9L4s5TUVip27rJU1hV5yDwyZ7jez57FC_i6PBg==" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGLI2qRISGkdL__nBhNFfC3K_Rs2UhB-SOSBMOff7kaFKccYB5_MTcEhPhsVB6bKJNMg1cv5IFRBMY3JzRfSa2Y68J8LoT7j7KFbdV9rEnB1Fh_vOGuEW-EJ3X_-4AQmd5tcDA3QCLCAzNQiQxhrQqsK3eHvQEvnjoV8OtWxyghkxs-ic-cuebFu3Wxvz7QcLejYW08UNWX1PaQYkl-n_yBQgEcJryy-2BCIcA9kQc=" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">""Symetra ceased selling structured settlement annuities in 2012... This transaction strengthens Symetra's risk-based capital and long-term financial position as we remain focused on growing our primary business lines." [cite: 7]"</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Symetra does not appear in the standard industry league tables for PRT sales volumes (dominated by L&G, Prudential, Athene, MetLife, etc.) in the provided search results. Their strategic disclosures highlight growth in "Medical Stop Loss" ($1.1 billion annual premium target from Dearborn deal) and "Fixed Indexed Annuities," but do not provide targets for BPA/PRT writing.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">Does the company utilize funded reinsurance?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Yes
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                60%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 60.0%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>60.0%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-medium">
+                            Moderate agreement between models (variance: 112.3)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-poor">
+                                        0%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHN3fDN6OZasKKyW0qYGjecPWcAdfX_gjCOmWiKE_EaKpYKleoHIlnB_fA42XMb_XsF1XzkqzadxIL306myoZNjsAsBPocR9DEvNPWQ5wfRR1ip5KX4Z5dfv893eL5yhROjljPjznMZFjCFaC0IhrmwSR1q1dRvMvsMc0YQ1PYxJ51yMZI0" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEh0umQqqnuh05WNzQHSe0bBhXF-1XxCIeaXzEo8_QgNQQBlV22N4xA3o5VdkZi24PlOsU9vbWMMKEWJCDUQjzdJb-dJozrsIbNylV8vMK47YpNjkdFzygSEZLAD6G64S4cWn73dAVyavv-kM5Ti2MUYRnFwj9au11rLSULROsTTg==" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEe1uwGQFIX2eLceeNzfwMH2zUMUnEYClX_EPZv_cCXHaRDimmaVXOItfuMBz66UnMlc2tnJ02ORLOBY962ub9GcInyYGBnyG6ahXymw6NZxWiehsdCAGlhF7yCj55LwGfr9gn_Mg_4pPdqzuzDufnW_t5XLhqLd3sLMt4-_I3Bem_6tAaII-NtK3wXkXsXDVf5LPLxYvs=" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">""Symetra Financial Corporation... announced that it had established Symetra Bermuda Re Ltd. to reinsure certain risks of Symetra Life Insurance Company... Symetra Bermuda Re completed its first reinsurance transaction, reinsuring an 80% quota share of fixed deferred and fixed indexed annuities issued by Symetra Life." [cite: 11]"</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Symetra established a captive reinsurer in Bermuda (Symetra Bermuda Re) specifically to reinsure asset-intensive liabilities (fixed deferred and fixed indexed annuities). This is a form of internal funded reinsurance designed to optimize capital ("Modco" or similar structures are implied by the asset transfer descriptions).</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+    <div class="section">
+        <h2>Financial Health & Capital</h2>
+
+        
+        <div class="qa-row">
+            <div class="question">What is the most recent Solvency II / Solvency UK coverage ratio?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        748%
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                69%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 68.6%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>68.6%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 5 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-medium">
+                            Moderate agreement between models (variance: 130.6)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-poor">
+                                        30%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Source</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEKXv5Oph02fszQBjT8WAQhtjQlzbxzbWAj0HTKQskU5ItIHTs7erXHmxigmDaZ_muwX56q8AMIBsmBRUrO99iJnG7hXYfruKull1jGzFYXHkDlfGtTSRLFG5D5ozpFhfyzgOYjc=" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">""As of December 31, 2024 and 2023, the ratio percentage used to determine the recovery period and limitation threshold amount was 748% and 724%, respectively... As of December 31, 2024 and 2023, the Company exceeded the minimum capital and surplus and RBC requirements." [cite: 14]"</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">As a US-domiciled insurer, Symetra does not report a Solvency II ratio. The regulatory standard is the NAIC Risk-Based Capital (RBC) ratio. The financial notes explicitly state the ratio used for Deferred Tax Asset (DTA) recoverability testing (which is tied to the Authorized Control Level RBC) was 748% for year-end 2024. S&P also cites their capital redundancy at the "99.95% confidence level" [cite: 15].</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">Does the company have an approved Matching Adjustment (MA)?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        No
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-low">
+                                12%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-low" style="width: 12.3%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>12.3%</strong>
+                            (Low)
+                            <span class="confidence-type">• Ensemble of 5 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-medium">
+                            Moderate agreement between models (variance: 158.0)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-poor">
+                                        30%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-poor">
+                                        0%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-poor">
+                                        20%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-poor">
+                                        0%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-fair">
+                                        40%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Source</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHET5SqUuOGA0jJqCcw0YlBHp70XV6zqqky7oNErf8rHYAbnDft2P3a3wbB0vg49AsfkP5KQgK0Hc7KMD-g8PrXl2_mTxjl-kP3CfpAuapVxfgRWeXQIQ7arnN9eJl4FfPw-gYFtZuRHoOYNaBP1RI7OoVumH8X" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">""The NAIC establishes certain risk-based capital (RBC) requirements for U.S. life and health insurance companies." [cite: 14]"</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">The "Matching Adjustment" is a specific regulatory approval under the UK/EU Solvency II regime. Symetra is regulated by the Iowa Insurance Division and the NAIC in the US, which utilizes "Asset Adequacy Analysis" and "Cash Flow Testing" rather than the Solvency II Matching Adjustment.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">What is the current Contractual Service Margin (CSM) balance?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text answer-unknown">
+                        Not Found
+                    </span>
+
+                    
+                </div>
+
+                
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>20.4%</strong>
+                            (Low)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-medium">
+                            Moderate agreement between models (variance: 138.5)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-poor">
+                                        0%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-poor">
+                                        0%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-poor">
+                                        0%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-poor">
+                                        0%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-poor">
+                                        0%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH7aFI5LczNr94_IXMahqNEEVjq_aaEFCpD7MAQ0Lkpuz4Sa1QrV3DnbZn9cgdpKa_C-5iy-SoJlulvPhXwmCV-9Ut1GtC5Tw2MCwKiO_bNm7vrlAe1bA0Z9lcWMSH9gk9BpA0qwmG1zgoe4oba9r_-TXVNuo34zY9Eh0k91TiZyQ==" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFOc0KK3h_Upwu6tkoY4G0lxEeeZGNRXVyGiCfrWRPu0NgVa-hNjcYCOMVhzc0ahFiRsa9zAaWfa8u7RY2HJNqbtq4tr-GLkzUs0qXrG50Zd39QjNg_-NsE9rjnROzOTM37cdM0" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">""Sumitomo Life's EEV plus Medicare Life's EEV, Symetra's EEV, and Singlife's TEV..." [cite: 17]"</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Symetra files US Statutory (Blue Book) and US GAAP financial statements. It does not report under IFRS 17, which is where CSM is a required line item. Its parent, Sumitomo Life, reports European Embedded Value (EEV) for Symetra in its integrated reports, but specific CSM figures for the US entity are not publicly broken out in the provided English-language disclosures.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+    <div class="section">
+        <h2>Actuarial Systems & Technology</h2>
+
+        
+        <div class="qa-row">
+            <div class="question">What is the primary actuarial modeling platform used?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        FIS Prophet
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                68%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 68.5%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>68.5%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 3 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-high">
+                            High agreement between models (variance: 32.0)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-poor">
+                                        0%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-excellent">
+                                        80%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFhz52ONBqLqi7NalJ9EkJANhAc5FapzU2KFtynqHxjfIUfrP_uDccGEOIgnW3nyrb2U6HjYJmCG8xk8DI_pbWemXMrpnc0WN6yDUV98u7iibcQdHLAn-qCdkLEHjl-XJgnbZD0uHMStVsDHSE58qOcYlcz_S4x7ALut07CNGQbQg==" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFR3a4wwfWEcEjzgF4Xyl6uiMEaWEbIKD4sD5UtMhY9ilbGzZ1sRLqpialN9MpjZaM98gguASs4wmNqvp4XZ0Hmi4CodYrvYx3eo_B1QXsH_DLItbx8I7JTB67Yz8UuHX_kjIJsRNNqGCBxNCM=" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFQi_rh4cqiL5NiPGepZzaS6Om1jRliW40yFQ8ZHz0iyXTOZ1uU4Q0Sw7wvDaBwSe3jvoO5705Z3pJvZa4NlnTGg-TD3YMF51yyitWTedMtuDZjC1euY947Woli3jnWz7rdAdaMLE7EO7YZQtbpHw==" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">""You use FIS Prophet actuarial software to model financial projections which provide the basis for determining reserves, Risk Based Capital and assessment of..." [cite: 19]"</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Job descriptions for actuarial roles at Symetra explicitly list "FIS Prophet" for modeling financial projections and reserves. Other listings also mention "MG-ALFA" (specifically for Solvency/ORSA calculations, see [cite: 20]) and "GGY AXIS" (often listed as preferred experience). Prophet appears to be the core platform for projections/reserving.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">Does the company explicitly mention Cloud Computing or Grid transformation?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Yes
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-low">
+                                30%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-low" style="width: 29.8%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>29.8%</strong>
+                            (Low)
+                            <span class="confidence-type">• Ensemble of 5 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-medium">
+                            Moderate agreement between models (variance: 237.0)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-poor">
+                                        30%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-fair">
+                                        40%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-poor">
+                                        0%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEI-j7wk-YmAFQ1_gqzYdK-G65IsYehp-Cp0_YGizDN2lyDQH_JPFFYLOHMhLLMf33kipIe_Gr0BwOGne1YWvD9WqbjdCXCMnzrQ_PwGNyXm6yd1fYvje3z6T4iZOTf1RMHixZ2WFWS9jcdy3qYjrP09Qutt5TSKyOBX9r3tEQka8Hfcv5EYF_2GrdI7zR48Kwvww==" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFR3a4wwfWEcEjzgF4Xyl6uiMEaWEbIKD4sD5UtMhY9ilbGzZ1sRLqpialN9MpjZaM98gguASs4wmNqvp4XZ0Hmi4CodYrvYx3eo_B1QXsH_DLItbx8I7JTB67Yz8UuHX_kjIJsRNNqGCBxNCM=" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">""Highly skilled in PC utilization including spreadsheets, data management software, and actuarial modeling software... As a remote-first organization..." [cite: 22]"</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">While explicit mentions of "Azure" or "AWS" grid transformation in the context of actuarial modeling are not present in the *financial* reports, the company has shifted to a "remote-first" and "digital-first" operating model, and job descriptions emphasize high proficiency in data management software. The modern actuarial platforms they use (Prophet, Axis) are typically deployed via cloud/grid in modern implementations, though a direct "we completed a cloud migration for actuarial" quote is not available in the public snippets. However, general IT transformation is implied by their "Symetra Empowers" strategy.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+    <div class="section">
+        <h2>Asset-Liability Management (ALM)</h2>
+
+        
+        <div class="qa-row">
+            <div class="question">Does the company hold Equity Release Mortgages (ERMs) or Infrastructure Debt?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Yes
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                52%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 51.9%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>51.9%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 5 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-low">
+                            Low agreement between models (variance: 715.1)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3jXnw_qUQ42j7g9klnOCmysP6qlQo_my2K-g7m6SOM0w9VBgEyqrGtvSchadrjWt4Hxxv_NwqH8mN9VzhqwlYHfMg5MRshca_0dnLU8HbXHeIuWf8SszGLCAXDSQk32YfUwbVf2RWguoI4pSlLlvujduK" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG8F39pZL_KjmM6OtqgrcPLklAuQsf3ixhKwI0toVXPNsjIIjc9CuwHrdMbUp2FggMRFYARzc-U-5eKjPV5zG4zIuPutKuEVGc-eea9F7RlxHOIeHtzNwIKbhxINDvDlpgtPm8RBm8y2QPEwxafM32X5MBCkkt8VsHgBSFLSmc=" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">""Over $248 million... Renewable energy investments invested as of Dec. 31, 2024. Over $431 million... Affordable housing tax credits invested as of Dec. 31, 2024." [cite: 23] "Commercial mortgage loan portfolio... 17.8%." [cite: 2]"</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Symetra explicitly details investments in "Renewable energy" and "Affordable housing" (infrastructure-like assets). They also hold a significant Commercial Mortgage Loan (CML) portfolio. "Equity Release Mortgages" (UK terminology) are not mentioned, but the asset classes of infrastructure/illiquids are present.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+    <div class="section">
+        <h2>Strategic & Subjective Analysis</h2>
+
+        
+        <div class="qa-row">
+            <div class="question">Is the strategic focus on Value of New Business (VNB) or Expense Efficiency?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Growth / Value of New Business
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                60%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 60.0%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>60.0%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-high">
+                            High agreement between models (variance: 27.3)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-good">
+                                        70%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-poor">
+                                        30%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGFQLrtJO63OpCsM0DpNg-mr3xnOmlCX_gkZTzAxW5uRMKInfSacT7N2S4oWMTDdcX7Jcsj_ntHsEENHTWq_xqyWCeb0fteVgETj3W4TQUgqE5lLJd4uRU9Oz44hd4ga3YcJ1_Hma2JwEPlnCeCsdyPjbhLDM31zNDpMkKfGDPznGmLl4dAn-Z26mvoINRCROmbpVZSG_4fdDk0KAr6Dl_PHIzpJiCYbpP3bfdg6tjb7g==" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHN3fDN6OZasKKyW0qYGjecPWcAdfX_gjCOmWiKE_EaKpYKleoHIlnB_fA42XMb_XsF1XzkqzadxIL306myoZNjsAsBPocR9DEvNPWQ5wfRR1ip5KX4Z5dfv893eL5yhROjljPjznMZFjCFaC0IhrmwSR1q1dRvMvsMc0YQ1PYxJ51yMZI0" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG8F39pZL_KjmM6OtqgrcPLklAuQsf3ixhKwI0toVXPNsjIIjc9CuwHrdMbUp2FggMRFYARzc-U-5eKjPV5zG4zIuPutKuEVGc-eea9F7RlxHOIeHtzNwIKbhxINDvDlpgtPm8RBm8y2QPEwxafM32X5MBCkkt8VsHgBSFLSmc=" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">""This is a significant milestone for Symetra that will reshape and rescale a rapidly growing portion of our business." [cite: 3] "Symetra Empowers is the unifying theme of our corporate strategy—one that challenges us to set and achieve goals that will move us into the future we envision... Creating a world where more people have access to financial freedom." [cite: 24]"</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">The strategy is aggressively growth-oriented, evidenced by the acquisition of Dearborn Group to "reshape and rescale" the benefits business, and the launch of Symetra Bermuda Re to support "competitive products" and "new business growth" in annuities. The tone focuses on expansion, "access," and "financial freedom" rather than cost-cutting or consolidation.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">What are the stated operational bottlenecks?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Legacy Systems & Manual Processes (Implied)
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                52%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 52.1%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>52.1%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 5 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-medium">
+                            Moderate agreement between models (variance: 244.2)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-poor">
+                                        30%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-poor">
+                                        20%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-fair">
+                                        40%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEI-j7wk-YmAFQ1_gqzYdK-G65IsYehp-Cp0_YGizDN2lyDQH_JPFFYLOHMhLLMf33kipIe_Gr0BwOGne1YWvD9WqbjdCXCMnzrQ_PwGNyXm6yd1fYvje3z6T4iZOTf1RMHixZ2WFWS9jcdy3qYjrP09Qutt5TSKyOBX9r3tEQka8Hfcv5EYF_2GrdI7zR48Kwvww==" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF5Bd1HTZDEL6ARL0aig56F1N7zhf7UIS38T4rKVuc3pNI4vwjMrJtKIKNQTQvXcus5HkWM6EqjiM-cU5VbAn5-3lT5stOzmHfGMit6A1suMiLYOn7B-tJe_h39ONTuv9Te_0xkOa0cDgnx8zk=" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">""Improve processes and create efficiencies with reporting, documentation, and transparency." [cite: 22] "We're transforming our business to fuel growth and reach our full potential in a changing world." [cite: 24]"</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Job descriptions consistently highlight the need to "improve processes," "create efficiencies," and "modernize" reporting frameworks. The emphasis on a "remote-first" transition and digital "transformation" programs suggests that legacy infrastructure and manual reporting workflows are the primary bottlenecks being addressed.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-row">
+            <div class="question">Has the company acknowledged SS5/25 or Climate Risk modeling gaps?</div>
+
+            <div class="answer-container">
+                
+                <div>
+                    <span class="answer-text">
+                        Acknowledged Climate Goals / TCFD Alignment
+                    </span>
+
+                    
+                        
+                            
+                            
+                            
+                            <span class="confidence-badge conf-medium">
+                                59%
+                            </span>
+                        
+                    
+                </div>
+
+                
+                
+                    
+                    
+                    <div class="confidence-bar-container">
+                        <div class="confidence-bar bar-medium" style="width: 58.75%;"></div>
+                    </div>
+                
+
+                <!-- This appears on hover -->
+                <div class="tooltip">
+                    
+                        
+                        <span class="meta-label">Enhanced Confidence Score</span>
+                        <div class="meta-content">
+                            <strong>58.8%</strong>
+                            (Medium)
+                            <span class="confidence-type">• Ensemble of 4 models</span>
+                        </div>
+
+                        
+                        
+                        
+                            
+                            
+                        
+
+                        <div class="agreement-indicator agreement-high">
+                            High agreement between models (variance: 94.7)
+                        </div>
+
+                        
+                        
+                            
+                            <span class="meta-label">Confidence Factors</span>
+                            <div class="factors-grid">
+                                <div class="factor-item">
+                                    <span class="factor-name">Source Authority</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Attribution Quality</span>
+                                    <span class="factor-score score-fair">
+                                        50%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Semantic Entailment</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Temporal Specificity</span>
+                                    <span class="factor-score score-poor">
+                                        30%
+                                    </span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-name">Scope Precision</span>
+                                    <span class="factor-score score-good">
+                                        60%
+                                    </span>
+                                </div>
+                            </div>
+                        
+                    
+
+                    <span class="meta-label">Sources</span>
+                    
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZp7KkY-WkcaRlE0Lb9HoS9ajEJYWnK7nnkD2GDAB77aXFX11Dw2m-LQ5VBy1rMiY4Y_r2U-Rquaz7cj8nbvKZ5_dxgroSUq3J8MutowedDcSguirsay6VCKRM7OqHmPAx7HOTquGw0V7wqGELHl8IEpyfCrYgSvUblD3HyGvf86O-WjKvnmQ97DxyvmbAdYPF9-zCscItVT_XJnMXX5pg1wnThCZCyXjZmGEga62rOISWOhSUH8I5ofWEVF7JPn_miXLo6JP6Y5lVePr4T0TQaeRpHgM4I9Rl2UE2typtIJxoXGMqvwYdI8VZwwXqECLB7bYmaPMUiEGBw33p29Z8stk4Cw==" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFr3oQEyiII8xxmpxGzFPJioNsYd4EyXneMkbERpTK6x-MjTpMc9bzO7h-WMoabYxlN3n1vModANLiLF3ueYIODlqND_FWkRWHEnRcECnDbzqNvfwG_c4IS17JVS_JLFS1KY1nuarkbCSpOVPIeI13R6nJggvOYbsNbjg==" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                            <div class="meta-content"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3jXnw_qUQ42j7g9klnOCmysP6qlQo_my2K-g7m6SOM0w9VBgEyqrGtvSchadrjWt4Hxxv_NwqH8mN9VzhqwlYHfMg5MRshca_0dnLU8HbXHeIuWf8SszGLCAXDSQk32YfUwbVf2RWguoI4pSlLlvujduK" class="source-link" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redire...</a></div>
+                        
+                    
+
+                    
+                    <span class="meta-label">Verbatim Quote</span>
+                    <div class="quote">""Our investment approach is designed to serve and protect financial well-being... CSR reporting: Read the 2024 Report... We aim to cut carbon emissions from our electrical usage by 20% by the end of 2027." [cite: 26] "Symetra Social Impact... integrated community, environmental sustainability, and governance efforts... aligned with the United Nations Sustainable Development Goals." [cite: 27]"</div>
+                    
+
+                    
+                    <span class="meta-label">AI Reasoning</span>
+                    <div class="meta-content">Symetra publishes a specific "Social Impact" report (CSR) that aligns with UN SDGs and mentions carbon reduction targets. While they do not explicitly cite the UK PRA's "SS5/25" (as they are a US entity), they acknowledge climate risk through their investment exclusions (tobacco, banned weapons) and specific impact investing targets (renewable energy). TCFD alignment is referenced in broader industry contexts (e.g., Adams Street partners report) but Symetra's own reports focus on "Social Impact" and "Sustainability" principles.</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+
+    <div class="footer">
+        Generated by Automated Research Agent - always verify information from primary sources.
+    </div>
+</div>
+
+</body>
+</html>
